@@ -24,3 +24,14 @@ header {
     text-decoration: none;
     float: left;
 }
+
+.logoutButton {
+    float: right;
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border: none;
+    color: white;
+    background-color: #333;
+}
