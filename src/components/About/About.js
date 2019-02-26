@@ -9,10 +9,11 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 
 const pStyle = {
   textAlign: 'justify',
-  marginBottom: '20px'
+  marginBottom: '20px',
+  fontSize: '18px'
 };
 
-const h2Style = {
+const h1Style = {
   textAlign: 'center',
   marginBottom: '30px',
   marginTop: '20px'
@@ -28,7 +29,7 @@ export const About= () => (
         <div >
         <Header />
         <Jumbotron fluid>
-        <h2 style={h2Style}>¿Quienes Somos?</h2>
+        <h1 style={h1Style}>¿Quienes Somos?</h1>
         </Jumbotron>
         <Container>
           <Row>
@@ -60,9 +61,9 @@ export const About= () => (
           </Row>
         </Container>;
         <Container>
-            <Image src='/joyeria.jpeg' rounded style={imgStyle}/>
-            <Image src='/joyeria2.jpeg' rounded style={imgStyle}/>
-            <Image src='/joyeria3.jpeg' rounded style={imgStyle}/>
+            <Image src='/joyeria.jpeg' roundedCircle style={imgStyle}/>
+            <Image src='/joyeria2.jpeg' roundedCircle style={imgStyle}/>
+            <Image src='/joyeria3.jpeg' roundedCircle style={imgStyle}/>
         </Container>
         </div>
 )
