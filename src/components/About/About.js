@@ -45,7 +45,7 @@ export const About= () => (
             </p>
 
             <p style={pStyle}>
-            <text style={{fontWeight: "bold"}}>Perlas facetadas:</text>
+            <p style={{fontWeight: "bold"}}>Perlas facetadas:</p>
             Pasan por un proceso de cortes y púlido que les brindan un brillo hermoso, parecido al cristal.
             </p>
 
@@ -54,7 +54,7 @@ export const About= () => (
             Asemejan en su apariencia a las finisímas perlas japonesas Kasumi.
             </p>
             <p style={pStyle}>
-            <text style={{fontWeight: "bold"}}>Perlas barrocas:</text>
+            <p style={{fontWeight: "bold"}}>Perlas barrocas:</p>
             Tienen formas irregulares lo que las hace únicas.
             </p>
             </Col>

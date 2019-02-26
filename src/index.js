@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import {Routes } from './router/AppRouter';
 import {Redirect, Route, Router} from "react-router";
 import createBrowserHistory from "history/createBrowserHistory";
 import getMuiTheme from "material-ui/styles/getMuiTheme";

@@ -2,7 +2,6 @@ import React from "react";
 import {FontIcon, RaisedButton} from "material-ui";
 import {loginWithGoogle} from "../../helpers/auth";
 import {firebaseAuth } from "../../config/config";
-import {logout} from "../../helpers/auth";
 import {customHistory} from '../../index';
 import { SignUpHeader } from "../SignUpHeader/SignupHeader";
 
