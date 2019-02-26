@@ -2,7 +2,7 @@ import React from "react";
 import {Header} from '../Header';
 import { customHistory } from "../../index";
 import FlatButton from "material-ui/FlatButton";
-import { validateSession } from "../../config/config";
+import { validateSession, database } from "../../config/config";
 
 export default class Home extends React.Component {
     currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -21,6 +21,9 @@ export default class Home extends React.Component {
     }
 
     render() {
+        database.ref('Test').once('value').then((snapshot) => {
+            console.log(snapshot.val())
+        })
         if(this.currentUser)
         return (
             <div>
