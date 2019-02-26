@@ -14,7 +14,7 @@ export default class Home extends React.Component {
         } else {
         }
     }
-   
+
 
     handleOrder = () => {
         customHistory.push('/catalogo');
