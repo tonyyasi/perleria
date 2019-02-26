@@ -14,7 +14,7 @@ export default class Home extends React.Component {
         } else {
         }
     }
-   
+
 
     handleOrder = () => {
         customHistory.push('/catalogo');
@@ -25,7 +25,7 @@ export default class Home extends React.Component {
         return (
             <div>
             <Header />
-            <div style={{position:'fixed', top:'50%', left:'50%', transform:'translate(-50%,-50%)', fontSize:'120%'}} >
+            <div style={{position:'fixed', top:'50%', left:'50%', transform:'translate(-50%,-50%)', fontSize:'120%', textAlign: 'center'}} >
                 <h1>Bienvenido a perleria, {this.currentUser.displayName}!</h1>
                 <FlatButton backgroundColor='lightgrey' onClick={this.handleOrder} label="Empezar a buscar!">  </FlatButton>
                 </div>

@@ -10,6 +10,7 @@ import * as serviceWorker from './serviceWorker';
 import Login from './components/Login/Login'
 import {About} from './components/About/About';
 import Home from './components/Home/Home';
+import 'bootstrap/dist/css/bootstrap.css';
 
 const muiTheme = getMuiTheme({
     appBar: {
