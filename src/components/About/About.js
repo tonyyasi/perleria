@@ -3,6 +3,8 @@ import {Header} from '../Header';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Image from 'react-bootstrap/Image';
+import Jumbotron from 'react-bootstrap/Jumbotron';
 
 
 const pStyle = {
@@ -16,10 +18,18 @@ const h2Style = {
   marginTop: '20px'
 };
 
+const imgStyle = {
+    width: '250px',
+    height: '250px',
+    margin: '50px'
+};
+
 export const About= () => (
         <div >
         <Header />
+        <Jumbotron fluid>
         <h2 style={h2Style}>¿Quienes Somos?</h2>
+        </Jumbotron>
         <Container>
           <Row>
             <Col md={{ span: 6, offset: 3 }}>
@@ -49,5 +59,10 @@ export const About= () => (
             </Col>
           </Row>
         </Container>;
+        <Container>
+            <Image src='/joyeria.jpeg' rounded style={imgStyle}/>
+            <Image src='/joyeria2.jpeg' rounded style={imgStyle}/>
+            <Image src='/joyeria3.jpeg' rounded style={imgStyle}/>
+        </Container>
         </div>
 )
