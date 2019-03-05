@@ -10,6 +10,7 @@ import Login from './components/Login/Login'
 import {About} from './components/About/About';
 import Home from './components/Home/Home';
 import 'bootstrap/dist/css/bootstrap.css';
+import { Catalog } from './components/Catalog/Catalog';
 
 const muiTheme = getMuiTheme({
     appBar: {
@@ -27,6 +28,7 @@ const Root = () => (
                 <Route path="/login" component={Login}/>
                 <Route path="/about" component={About} />
                 <Route path="/home" component={Home} />
+                <Route path="/catalog" component={Catalog} />
                 <Redirect from="/" to="/login"/>
             </div>
         </Router>

@@ -21,12 +21,13 @@ export class Header extends React.Component {
     }
 
     render() {
-    
+
         return (
         <header>
         <div>
         <NavLink className="nav navItems" activeClassName="is-active" exact={true} to ="/home">Home</NavLink>
         <NavLink className="nav navItems" activeClassName="is-active" to ="/about">About</NavLink>
+        <NavLink className="nav navItems" activeClassName="is-active" to ="/catalog">Catalog</NavLink>
         <button className="logoutButton" onClick={this.handleLogout}>Logout</button>
         </div>
     </header>
