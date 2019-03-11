@@ -45,7 +45,9 @@ export default class Admin extends React.Component {
         var product = this.state;
         if (product.category.length == 0)
             product.category = "Collar";
+        let key = this.database.push().key;
         this.database.push().set({
+            id: key,
             name: product.name,
             description: product.description,
             category: product.category,
