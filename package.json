@@ -6,12 +6,8 @@
     "@emotion/core": "^10.0.9",
     "@emotion/styled": "^10.0.9",
     "bootstrap": "^4.3.1",
-<<<<<<< HEAD
     "firebase": "^5.8.4",
     "formik": "^1.5.1",
-=======
-    "firebase": "^5.8.6",
->>>>>>> Created admin panel and create new product functionality
     "material-ui": "^0.20.2",
     "react": "^16.8.4",
     "react-bootstrap": "^1.0.0-beta.5",

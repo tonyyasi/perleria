@@ -8,15 +8,9 @@ import getMuiTheme from "material-ui/styles/getMuiTheme";
 import * as serviceWorker from './serviceWorker';
 import Login from './components/Login/Login'
 import {About} from './components/About/About';
-<<<<<<< HEAD
 import {Contact} from './components/Contact/Contact'
-=======
 import Admin from './components/Admin/Admin';
-<<<<<<< HEAD
->>>>>>> Created admin panel and create new product functionality
-=======
 import Profile from './components/Profile/Profile';
->>>>>>> set up edit profile page
 import Home from './components/Home/Home';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -36,11 +30,8 @@ const Root = () => (
                 <Route path="/login" component={Login}/>
                 <Route path="/profile" component={Profile}/>
                 <Route path="/about" component={About} />
-<<<<<<< HEAD
                 <Route path="/contact" component={Contact} />
-=======
                 <Route path="/admin" component={Admin} />
->>>>>>> Created admin panel and create new product functionality
                 <Route path="/home" component={Home} />
                 <Redirect from="/" to="/login"/>
             </div>

@@ -31,7 +31,7 @@ export class Delete extends React.Component {
 
       this.database.on('child_removed', snap => {
         for (let i = 0; i < previousProducts.length; i++)
-          if (previousProducts[i].id == snap.key)
+          if (previousProducts[i].id === snap.key)
             previousProducts.splice(i, 1);
         this.setState({ products: previousProducts, activeID: previousProducts[0].id});
       })
