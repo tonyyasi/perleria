@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Header} from '../Header';
 import {Create} from './Create';
 import {Delete} from './Delete';
+import {Update} from './Update';
 
 const h1Style = {
   textAlign: 'center',
@@ -18,6 +19,7 @@ export default class Admin extends React.Component {
                 <Create />
                 <br />
                 <Delete />
+                <Update />
             </div>
         )
     }

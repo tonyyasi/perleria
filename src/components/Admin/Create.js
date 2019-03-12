@@ -114,7 +114,7 @@ export class Create extends React.Component {
                   <Form.Control required name="images" type="file" multiple onChange={this.handlePhotos}/>
                   </Form.Group>
                   <Button variant="primary" type="Crear">
-                    Submit
+                    Crear
                   </Button>
                 </Form>
             </Container>

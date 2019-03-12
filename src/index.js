@@ -30,8 +30,8 @@ const Root = () => (
                 <Route path="/login" component={Login}/>
                 <Route path="/profile" component={Profile}/>
                 <Route path="/about" component={About} />
-                <Route path="/contact" component={Contact} />
                 <Route path="/admin" component={Admin} />
+                <Route path="/contact" component={Contact} />
                 <Route path="/home" component={Home} />
                 <Redirect from="/" to="/login"/>
             </div>

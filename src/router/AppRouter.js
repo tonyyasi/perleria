@@ -18,6 +18,7 @@ export const Routes = () => (
     <Switch>
       <Route exact={true} path='/' component={Login} />
       <Route exact={true} path='/about' component={About} />
+      <Route exact={true} path='/admin' component={Admin} />
       <Route exact={true} path='/contact' component={Contact} />
       <Route exact={true} path='/admin' component={Admin} />
     </Switch>
