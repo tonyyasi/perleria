@@ -48,7 +48,8 @@ export class Update extends React.Component {
       if (e.target.name === "stock") {
             let stock = parseInt(e.target.value, 10);
             this.setState({ [e.target.name]: stock });
-        }
+        } else if (e.target.name === "products")
+            this.setState({ activeID: e.target.value });
         else 
             this.setState({ [e.target.name]: e.target.value });
     }
@@ -62,13 +63,30 @@ export class Update extends React.Component {
             stock: this.state.stock
       });
       alert("Se ha modificado correctamente!");
+      var previousProducts = [];
+      this.database.on('child_added', snap => {
+        previousProducts.push({
+          id: snap.key,
+          name: snap.val().name,
+          description: snap.val().description,
+          category: snap.val().category,
+          stock: snap.val().stock
+        })
+        this.setState({ 
+          products: previousProducts, 
+          activeId: previousProducts[0].id,
+              name: previousProducts[0].name,
+       description: previousProducts[0].description,
+          category: previousProducts[0].category,
+             stock: previousProducts[0].stock,
+           });
+      })
     }
 
     listProducts() {
-      let aux = this.state.products.map((product) => {
+      return this.state.products.map((product) => {
         return <option key={product.id} value={product.id}> {product.name} </option>;
       });
-      return aux;
     }
 
     render() {
