@@ -8,6 +8,7 @@ import getMuiTheme from "material-ui/styles/getMuiTheme";
 import * as serviceWorker from './serviceWorker';
 import Login from './components/Login/Login'
 import {About} from './components/About/About';
+import {Contact} from './components/Contact/Contact'
 import Home from './components/Home/Home';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -26,6 +27,7 @@ const Root = () => (
             <div>
                 <Route path="/login" component={Login}/>
                 <Route path="/about" component={About} />
+                <Route path="/contact" component={Contact} />
                 <Route path="/home" component={Home} />
                 <Redirect from="/" to="/login"/>
             </div>
