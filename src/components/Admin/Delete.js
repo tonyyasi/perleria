@@ -31,7 +31,7 @@ export class Delete extends React.Component {
 
       this.database.on('child_removed', snap => {
         for (let i = 0; i < previousProducts.length; i++)
-          if (previousProducts[i].id == snap.key)
+          if (previousProducts[i].id === snap.key)
             previousProducts.splice(i, 1);
         this.setState({ products: previousProducts, activeID: previousProducts[0].id});
       })
@@ -64,12 +64,9 @@ export class Delete extends React.Component {
                     <Form.Control required name="category" as="select" onChange={this.handleChange}>
                         {this.listProducts()}
                     </Form.Control>
-                    <Form.Control.Feedback type="invalid">
-                      Por favor seleccione alguna categoría.
-                    </Form.Control.Feedback>
                   </Form.Group>
-                  <Button variant="primary" type="Eliminar">
-                    Submit
+                  <Button variant="primary" type="submit">
+                    Eliminar
                   </Button>
                 </Form>
             </Container>

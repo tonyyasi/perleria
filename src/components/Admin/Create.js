@@ -16,7 +16,7 @@ export class Create extends React.Component {
             name:'',
             description:'',
             category:'',
-            stock:0
+            stock:0,
         }
     }
 
@@ -32,7 +32,7 @@ export class Create extends React.Component {
     handleCreate(e) {
         e.preventDefault();
         var product = this.state;
-        if (product.category.length == 0)
+        if (product.category.length === 0)
             product.category = "Collar";
         let key = this.database.push().key;
         this.database.push().set({
@@ -84,8 +84,8 @@ export class Create extends React.Component {
                       Por favor introduzca la cantidad disponible.
                     </Form.Control.Feedback>
                   </Form.Group>
-                  <Button variant="primary" type="Crear">
-                    Submit
+                  <Button variant="primary" type="submit">
+                    Crear
                   </Button>
                 </Form>
             </Container>
