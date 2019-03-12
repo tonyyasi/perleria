@@ -2,7 +2,7 @@ import * as React from 'react';
 import Form from 'react-bootstrap/Form'
 import {Button} from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
-import {database} from "../../config/config";
+import {database, storageRef} from "../../config/config";
 
 export class Create extends React.Component {
     constructor(props) {
@@ -16,7 +16,8 @@ export class Create extends React.Component {
             name:'',
             description:'',
             category:'',
-            stock:0,
+            stock:0, 
+            image: null
         }
     }
 
@@ -29,20 +30,44 @@ export class Create extends React.Component {
             this.setState({ [e.target.name]: e.target.value });
     }
 
+    handlePhotos = (e) => {
+      const image = e.target.files[0];
+      this.setState(() => ({image}));
+    }
+
     handleCreate(e) {
         e.preventDefault();
         var product = this.state;
         if (product.category.length === 0)
             product.category = "Collar";
         let key = this.database.push().key;
-        this.database.push().set({
-            id: key,
-            name: product.name,
-            description: product.description,
-            category: product.category,
-            stock: product.stock
-        });
-      alert("Se ha creado correctamente!");
+        const image = this.state.image;
+        const imageName = image.name + new Date().getTime().toString();
+        const uploadTask = storageRef.ref(`images/${imageName}`).put(image);
+        uploadTask.on('state_changed', 
+        (snapshot) => {
+          // progrss function ....
+        }, 
+        (error) => {
+             // error function ....
+          console.log(error);
+        }, 
+      () => {
+          // complete function ....
+          storageRef.ref('images').child(imageName).getDownloadURL().then(url => {
+              this.database.push().set({
+                id: key,
+                name: product.name,
+                description: product.description,
+                category: product.category,
+                stock: product.stock,
+                imageURL: url
+            }).then(() => {
+              alert("Se ha creado correctamente!");
+            })
+          })
+      });
+        
     }
 
     render() {
@@ -84,8 +109,12 @@ export class Create extends React.Component {
                       Por favor introduzca la cantidad disponible.
                     </Form.Control.Feedback>
                   </Form.Group>
-                  <Button variant="primary" type="submit">
-                    Crear
+                  <Form.Group>
+                  <Form.Label>Image </Form.Label>
+                  <Form.Control required name="images" type="file" multiple onChange={this.handlePhotos}/>
+                  </Form.Group>
+                  <Button variant="primary" type="Crear">
+                    Aceptar
                   </Button>
                 </Form>
             </Container>
