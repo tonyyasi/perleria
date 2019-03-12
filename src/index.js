@@ -9,6 +9,7 @@ import * as serviceWorker from './serviceWorker';
 import Login from './components/Login/Login'
 import {About} from './components/About/About';
 import {Contact} from './components/Contact/Contact'
+import {Catalogo} from './components/Catalog/Catalog'
 import Admin from './components/Admin/Admin';
 import Profile from './components/Profile/Profile';
 import Home from './components/Home/Home';
@@ -28,6 +29,7 @@ const Root = () => (
         <Router history={customHistory}>
             <div>
                 <Route path="/login" component={Login}/>
+                <Route path="/catalog" component={Catalogo}/>
                 <Route path="/profile" component={Profile}/>
                 <Route path="/about" component={About} />
                 <Route path="/admin" component={Admin} />

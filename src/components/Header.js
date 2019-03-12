@@ -26,6 +26,7 @@ export class Header extends React.Component {
         <header>
         <div>
         <NavLink className="nav navItems" activeClassName="is-active" exact={true} to ="/home">Home</NavLink>
+        <NavLink className="nav navItems" activeClassName="is-active" to ="/catalog">Catalogo</NavLink>
         <NavLink className="nav navItems" activeClassName="is-active" to ="/about">¿Quiénes Somos?</NavLink>
         <NavLink className="nav navItems" activeClassName="is-active" to ="/contact">Contacto</NavLink>
         <NavLink className="nav navItems" activeClassName="is-active" to ="/admin">Admin</NavLink>
