@@ -17,7 +17,7 @@ export default class Home extends React.Component {
 
 
     handleOrder = () => {
-        customHistory.push('/catalogo');
+        customHistory.push('/catalog');
     }
 
     render() {
