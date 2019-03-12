@@ -32,7 +32,6 @@ const Root = () => (
                 <Route path="/about" component={About} />
                 <Route path="/admin" component={Admin} />
                 <Route path="/contact" component={Contact} />
-                <Route path="/admin" component={Admin} />
                 <Route path="/home" component={Home} />
                 <Redirect from="/" to="/login"/>
             </div>
