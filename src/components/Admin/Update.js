@@ -19,7 +19,8 @@ export class Update extends React.Component {
                 name: '',
          description: '',
             category: '',
-               stock: 0
+               stock: 0,
+               price: 0
         }
     }
 
@@ -31,7 +32,8 @@ export class Update extends React.Component {
           name: snap.val().name,
           description: snap.val().description,
           category: snap.val().category,
-          stock: snap.val().stock
+          stock: snap.val().stock,
+          price: snap.val().price
         })
         this.setState({ 
           products: previousProducts, 
@@ -40,16 +42,18 @@ export class Update extends React.Component {
        description: previousProducts[0].description,
           category: previousProducts[0].category,
              stock: previousProducts[0].stock,
+             price: previousProducts[0].price,
            });
       })
     }
 
     handleChange(e) {
-      if (e.target.name === "stock") {
-            let stock = parseInt(e.target.value, 10);
-            this.setState({ [e.target.name]: stock });
-        } else if (e.target.name === "products")
-            this.setState({ activeID: e.target.value });
+      if (e.target.name === "stock" || e.target.name === "price") {
+            let num = parseInt(e.target.value, 10);
+            this.setState({ [e.target.name]: num });
+        } else if (e.target.name === "products") {
+            this.setState({ activeId: e.target.value });
+          }
         else 
             this.setState({ [e.target.name]: e.target.value });
     }
@@ -60,7 +64,8 @@ export class Update extends React.Component {
             name: this.state.name,
             description: this.state.description,
             category: this.state.category,
-            stock: this.state.stock
+            stock: this.state.stock,
+            price: this.state.price
       });
       alert("Se ha modificado correctamente!");
       var previousProducts = [];
@@ -70,7 +75,8 @@ export class Update extends React.Component {
           name: snap.val().name,
           description: snap.val().description,
           category: snap.val().category,
-          stock: snap.val().stock
+          stock: snap.val().stock,
+          price: snap.val().price
         })
         this.setState({ 
           products: previousProducts, 
@@ -79,6 +85,7 @@ export class Update extends React.Component {
        description: previousProducts[0].description,
           category: previousProducts[0].category,
              stock: previousProducts[0].stock,
+             price: previousProducts[0].price,
            });
       })
     }
@@ -133,6 +140,13 @@ export class Update extends React.Component {
                       <Form.Control required name="stock" type="number" onChange={this.handleChange}/>
                       <Form.Control.Feedback type="invalid">
                         Por favor introduzca la cantidad disponible.
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group controlId="pPrice">
+                      <Form.Label>Precio:</Form.Label>
+                      <Form.Control required name="price" type="number" onChange={this.handleChange}/>
+                      <Form.Control.Feedback type="invalid">
+                        Por favor introduzca el costo.
                       </Form.Control.Feedback>
                     </Form.Group>
                   </Container>

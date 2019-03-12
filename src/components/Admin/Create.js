@@ -17,14 +17,15 @@ export class Create extends React.Component {
             description:'',
             category:'',
             stock:0, 
+            price: 0,
             image: null
         }
     }
 
     handleChange(e) {
-        if (e.target.name === "stock") {
-            let stock = parseInt(e.target.value, 10);
-            this.setState({ [e.target.name]: stock });
+        if (e.target.name === "stock" || e.target.name === "price") {
+            let num = parseInt(e.target.value, 10);
+            this.setState({ [e.target.name]: num });
         }
         else 
             this.setState({ [e.target.name]: e.target.value });
@@ -61,6 +62,7 @@ export class Create extends React.Component {
                 description: product.description,
                 category: product.category,
                 stock: product.stock,
+                price: product.price,
                 imageURL: url
             }).then(() => {
               alert("Se ha creado correctamente!");
@@ -107,6 +109,13 @@ export class Create extends React.Component {
                     <Form.Control required name="stock" type="number" onChange={this.handleChange}/>
                     <Form.Control.Feedback type="invalid">
                       Por favor introduzca la cantidad disponible.
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Group controlId="pPrice">
+                    <Form.Label>Precio:</Form.Label>
+                    <Form.Control required name="price" type="number" onChange={this.handleChange}/>
+                    <Form.Control.Feedback type="invalid">
+                      Por favor introduzca el costo.
                     </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group>
