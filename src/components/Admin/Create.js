@@ -42,7 +42,8 @@ export class Create extends React.Component {
             product.category = "Collar";
         let key = this.database.push().key;
         const image = this.state.image;
-        const uploadTask = storageRef.ref(`images/${image.name}`).put(image);
+        const imageName = image.name + new Date().getTime().toString();
+        const uploadTask = storageRef.ref(`images/${imageName}`).put(image);
         uploadTask.on('state_changed', 
         (snapshot) => {
           // progrss function ....
@@ -53,7 +54,7 @@ export class Create extends React.Component {
         }, 
       () => {
           // complete function ....
-          storageRef.ref('images').child(image.name).getDownloadURL().then(url => {
+          storageRef.ref('images').child(imageName).getDownloadURL().then(url => {
               this.database.push().set({
                 id: key,
                 name: product.name,
