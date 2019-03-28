@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {database} from "../../config/config";
 import { currentUser } from '../../config/config';
+import { Header } from '../Header';
 
 export class CatalogItem extends React.Component {
 
@@ -18,14 +19,26 @@ export class CatalogItem extends React.Component {
         this.fetchCarrito();
     }
 
+     snapshotToArray = (snapshot) => {
+        var returnArr = [];
+    
+        snapshot.forEach(function(childSnapshot) {
+            var item = childSnapshot.val();
+            item.key = childSnapshot.key;
+    
+            returnArr.push(item);
+        });
+    
+        return returnArr;
+    };
+
     fetchCarrito = () => {
-        let databaseRef = database.ref(`productos/${currentUser().uid}`);
+        let databaseRef = database.ref(`carritos/${currentUser().uid}/productos`);
         databaseRef.once('value').then((snapshot)=>{
             const carrito = snapshot.val();
             if (carrito) {
             this.setState({carrito});
-            console.log(carrito);
-            } 
+            }
           })
     }
 
@@ -49,6 +62,8 @@ export class CatalogItem extends React.Component {
             // Add to cart logic
             database.ref().child(`carritos/${currentUser().uid}`).set({
                 productos: [{id: item.id, amount: amount }, ...carrito]
+            }).then(() => {
+                alert('Producto agregado a carrito');
             })
         } else {
             alert('Solo se puede comprar lo que se tiene en el inventario');
@@ -57,11 +72,10 @@ export class CatalogItem extends React.Component {
 
     render() {
 
-        const {item} = this.state;
-        console.log('it', item);
-        
+        const {item} = this.state;        
         return (
             <div>
+            <Header />
             <h2>Artículo: {item.name}</h2>
             <img src={item.imageURL} style={{height:'210px', borderRadius:'20px', marginBottom: '40px'}}></img>
             <table>
