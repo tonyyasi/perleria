@@ -14,6 +14,7 @@ import Admin from './components/Admin/Admin';
 import Profile from './components/Profile/Profile';
 import Home from './components/Home/Home';
 import 'bootstrap/dist/css/bootstrap.css';
+import { CatalogItem } from './components/CatalogItem/CatalogItem';
 
 const muiTheme = getMuiTheme({
     appBar: {
@@ -29,7 +30,8 @@ const Root = () => (
         <Router history={customHistory}>
             <div>
                 <Route path="/login" component={Login}/>
-                <Route path="/catalog" component={Catalogo}/>
+                <Route path="/catalog" component={Catalogo} exact={true}/>
+                <Route path="/catalog/:id" component={CatalogItem} exact={true}/>
                 <Route path="/profile" component={Profile}/>
                 <Route path="/about" component={About} />
                 <Route path="/admin" component={Admin} />

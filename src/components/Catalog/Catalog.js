@@ -5,6 +5,7 @@ import {database} from "../../config/config";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { customHistory } from '../..';
 
 
 const Line = styled.hr({
@@ -56,6 +57,10 @@ export class Catalogo extends React.Component{
       this.getProducts() 
       }
 
+      handleClick = () => {
+        customHistory.push('catalog/-L_kJSJZIKDPVExd8ItU');
+      }
+
     render(){
         return(
             <div>
@@ -69,6 +74,7 @@ export class Catalogo extends React.Component{
                     <Line/>
                   </Row>
                     {this.createProductCatalog()}
+                    <button onClick={this.handleClick}>Click</button>
                 </Container>
             </div>
         )
