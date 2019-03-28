@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {database} from "../../config/config";
+import { currentUser } from '../../config/config';
 
 export class CatalogItem extends React.Component {
 
@@ -8,11 +9,24 @@ export class CatalogItem extends React.Component {
         this.state = {
             item: {},
             amount: 0,
+            carrito: []
         };
     }
 
     componentDidMount() {
         this.fetchProduct();
+        this.fetchCarrito();
+    }
+
+    fetchCarrito = () => {
+        let databaseRef = database.ref(`productos/${currentUser().uid}`);
+        databaseRef.once('value').then((snapshot)=>{
+            const carrito = snapshot.val();
+            if (carrito) {
+            this.setState({carrito});
+            console.log(carrito);
+            } 
+          })
     }
 
     fetchProduct = () => {
@@ -30,9 +44,12 @@ export class CatalogItem extends React.Component {
     }
 
     handleButton = () => {
-        const {item, amount} = this.state;
+        const {item, amount, carrito} = this.state;
         if(item.stock >= amount) {
-
+            // Add to cart logic
+            database.ref().child(`carritos/${currentUser().uid}`).set({
+                productos: [{id: item.id, amount: amount }, ...carrito]
+            })
         } else {
             alert('Solo se puede comprar lo que se tiene en el inventario');
         }
@@ -41,6 +58,7 @@ export class CatalogItem extends React.Component {
     render() {
 
         const {item} = this.state;
+        console.log('it', item);
         
         return (
             <div>
