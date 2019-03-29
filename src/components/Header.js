@@ -34,6 +34,7 @@ export class Header extends React.Component {
         <NavLink className="nav navItems" activeClassName="is-active" to ="/admin">Admin</NavLink>
         }
         <NavLink className="nav navItems" activeClassName="is-active" to ="/profile">Perfil</NavLink>
+        <NavLink className="nav navItems" activeClassName="is-active" to ="/cart">Carrito</NavLink>
         <button className="logoutButton" onClick={this.handleLogout}>Logout</button>
 
         </div>
