@@ -3,7 +3,7 @@ import {Header} from '../Header';
 import {Create} from './Create';
 import {Delete} from './Delete';
 import {Update} from './Update';
-import { checkAdmin, currentUser } from '../../config/config';
+import { database, currentUser } from '../../config/config';
 
 const h1Style = {
   textAlign: 'center',
@@ -12,8 +12,30 @@ const h1Style = {
 };
 
 export default class Admin extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            showAdmin: false
+        }
+    }
+
+    componentDidMount() {
+        this.reviseAdmin(currentUser().uid);
+    }
+
+    reviseAdmin = (id) => {
+        database.ref(`admins/${id}`).once('value').then((snapshot) => {
+            const showAdmin = snapshot.val();
+            this.setState({showAdmin});
+        });
+    }
+
+
+   
+
     render() {
-        if (checkAdmin(currentUser().uid)){
+        if (this.state.showAdmin){
         return (
             <div>
                 <Header />
