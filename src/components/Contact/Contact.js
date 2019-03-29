@@ -55,13 +55,14 @@ const ContactSchema = Yup.object().shape({
 
   })
 
-  let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  let nameUser = currentUser.displayName
-  let emailUser = currentUser.email
-  let databaseRef = database.ref().child('contacto')
+ 
 
 
 export class Contact extends React.Component{
+     currentUser = JSON.parse(localStorage.getItem('currentUser'));
+     nameUser = this.currentUser.displayName
+     emailUser = this.currentUser.email
+     databaseRef = database.ref().child('contacto')
 
   state = {
     showModal: false
@@ -86,15 +87,15 @@ toggleModal = () => {
                         <Formik 
                         initialValues={{
                             message:'',
-                            name: nameUser,
-                            email: emailUser,
+                            name: this.nameUser,
+                            email: this.emailUser,
 
                         }}
                         validationSchema = {ContactSchema}
                         onSubmit = {
                             (values,actions) =>{
-                            let key = databaseRef.push().key;
-                            databaseRef.push().set({
+                            let key = this.databaseRef.push().key;
+                            this.databaseRef.push().set({
                                 id: key,
                                 name: values.name,
                                 email: values.email,

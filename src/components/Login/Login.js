@@ -38,6 +38,7 @@ export default class Login extends React.Component {
 
                 localStorage.removeItem(firebaseAuthKey);
                 // store key to avoid loging in everytime.
+                console.log('usss', user);
                 localStorage.setItem(appTokenKey, user.uid);
                 localStorage.setItem("currentUser",  JSON.stringify(user));
 
