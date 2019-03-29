@@ -1,7 +1,19 @@
 import * as React from 'react';
 import {database} from "../../config/config";
+import styled from '@emotion/styled'
 import { currentUser } from '../../config/config';
 import { Header } from '../Header';
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
+
+const Line = styled.hr({
+  background: '#00aaff',
+  border: '0',
+  height: '0.125rem',
+  marginBottom: '2rem',
+  maxWidth: '2rem,',
+  width: '75%',
+})
 
 export class CatalogItem extends React.Component {
 
@@ -96,25 +108,29 @@ export class CatalogItem extends React.Component {
 
         const {item} = this.state;        
         return (
-            <div>
+            <div style={{marginBottom:'35px'}}>
             <Header />
-            <h2>Artículo: {item.name}</h2>
-            <img src={item.imageURL} style={{height:'210px', borderRadius:'20px', marginBottom: '40px'}}></img>
-            <table>
+            <Container>
+            <div style={{textAlign: 'center', marginTop: '30px'}}> <h2><b>Artículo:</b> {item.name}</h2> </div>
+            <Line/>
+            <div style={{textAlign: 'center'}}>
+              <img src={item.imageURL} style={{maxHeight:'350px', borderRadius:'20px', marginBottom: '40px'}}/>
+            </div>
+            <table style={{marginBottom: '35px'}}>
             <tr>
-              <td>Categoria</td>
+              <td><b>Categoria:</b></td>
               <td>{item.category}</td>
             </tr>
             <tr>
-              <td>Descripción</td>
+              <td><b>Descripción:</b></td>
               <td>{item.description}</td>
             </tr>
             <tr>
-              <td>Precio</td>
-              <td>{item.price}</td>
+              <td><b>Precio:</b></td>
+              <td>${item.price}</td>
             </tr>
             <tr>
-              <td>Articulos Disponibles</td>
+              <td><b>Articulos Disponibles:</b></td>
               <td>{item.stock}</td>
             </tr>
             <tr>
@@ -123,9 +139,10 @@ export class CatalogItem extends React.Component {
           {item.stock > 0 && (
               <div>
               <input type="text" placeholder="amount" value={this.state.amount} onChange={this.handleChange}></input>
-              <button onClick={this.handleButton}>Add to cart</button>
+              <Button onClick={this.handleButton} style={{marginLeft: '15px'}}>Agregar a carrito</Button>
               </div>
           )}
+          </Container>
             </div>
         )
     }
