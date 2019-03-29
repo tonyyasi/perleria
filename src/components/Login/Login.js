@@ -27,6 +27,7 @@ export default class Login extends React.Component {
     componentWillMount() {  
         // We have appToken relevant for our backend API, redirect home
         if (localStorage.getItem(appTokenKey)) {
+            console.log(this.props);
             customHistory.push("/home");
             return;
         } else {

@@ -24,4 +24,22 @@ import firebase from 'firebase'
       } else {
           return false;
       }
+  };
+
+  export  function currentUser() {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    console.log(user.uid);
+    return user;
+
+  }
+
+  export async function checkAdmin(id) {
+    await database.ref(`admins/${id}`).once('value').then((snapshot) => {
+      console.log('test',snapshot.val());
+      if (snapshot.val()) {
+          return true;
+      } else {
+         return false;
+      }
+  });
   }

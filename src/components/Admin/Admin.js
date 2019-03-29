@@ -3,6 +3,7 @@ import {Header} from '../Header';
 import {Create} from './Create';
 import {Delete} from './Delete';
 import {Update} from './Update';
+import { checkAdmin, currentUser } from '../../config/config';
 
 const h1Style = {
   textAlign: 'center',
@@ -12,6 +13,7 @@ const h1Style = {
 
 export default class Admin extends React.Component {
     render() {
+        if (checkAdmin(currentUser().uid)){
         return (
             <div>
                 <Header />
@@ -22,5 +24,12 @@ export default class Admin extends React.Component {
                 <Update />
             </div>
         )
+        } else {
+            return (
+                <div>
+                    <h1>You are not an admin</h1>
+                </div>
+            )
+        }
     }
 }
