@@ -5,6 +5,7 @@ import {database} from "../../config/config";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import { customHistory } from '../..';
 
 
@@ -17,48 +18,49 @@ const Line = styled.hr({
   width: '75%',
 })
 
+const sImage = {
+  maxHeight: '210px',
+  borderRadius: '20px',
+  marginBottom: '30px',
+}
+
 export class Catalogo extends React.Component{
     constructor(props){
         super(props);
       
         this.state = {
-          firebasedata: []
+          items: []
         }
         this.getProducts = this.getProducts.bind(this)
      };
 
      getProducts(){
+      let arrItem = []
       let databaseRef = database.ref("productos/")
       databaseRef.once('value').then((snapshot)=>{
         const firebasedata = snapshot.val()
-        this.setState({firebasedata})
-        console.log(firebasedata)
+        for(let key in firebasedata){
+          arrItem.push({
+            id: key,
+            name: firebasedata[key].name,
+            description: firebasedata[key].description,
+            price: firebasedata[key].price,
+            image: firebasedata[key].imageURL,
+          })
+        }
+        this.setState({
+          items: arrItem
+        })
       })
-    }
-
-    createProductCatalog = () => {
-      let html = ''
-      for (var key in this.state.firebasedata) {
-        html += "<div class='col-md-4'>"
-        html += "<div style='text-align:center'><img src= " +this.state.firebasedata[key].imageURL+" style='height:210px; border-radius:20px; margin-bottom: 40px'></div>"
-        html += "<br/><b>Nombre: </b>"
-        html += this.state.firebasedata[key].name
-        html += "<br/><b>Descripción: </b>"
-        html += this.state.firebasedata[key].description
-        html += "<br/><b>Precio: $</b>"
-        html += this.state.firebasedata[key].price
-        html += "<br><div style='text-align: center;'><input class='btn btn-primary' type='button' value='Agregar'></input></div>"
-        html += "</div>"
-      }
-      return <div className="row" style={{marginTop:'20px'}} dangerouslySetInnerHTML={{__html: html}}/>
     }
 
      componentWillMount(){
       this.getProducts() 
+      console.log(this.state.items)
       }
 
-      handleClick = () => {
-        customHistory.push('catalog/-L_kJSJZIKDPVExd8ItU');
+      handleClick = (itemKey) => {
+        customHistory.push('catalog/'+itemKey);
       }
 
     render(){
@@ -73,8 +75,28 @@ export class Catalogo extends React.Component{
                     </div><br/>
                     <Line/>
                   </Row>
-                    {this.createProductCatalog()}
-                    <button onClick={this.handleClick}>Click</button>
+                  <Row>
+                    {this.state.items.map((item)=> {
+                      return(
+                        <Col sm={{ span: 4}}>
+                          <div style={{textAlign: 'center'}}>
+                            <img src={item.image} style={sImage}/>
+                          </div>                      
+                          <p>
+                            <b>Nombre:</b> {item.name} <br/>
+                            <b>Descripción:</b> {item.description} <br/>
+                            <b>Precio: $</b> {item.price} <br/>
+                          </p>
+                          <div style={{textAlign: 'center'}}>
+                            <Button variant="primary" onClick={()=>{this.handleClick(item.id)}}>
+                              Detalle
+                            </Button>
+                          </div>
+                        </Col>
+                      )
+                    })}
+    
+                  </Row>
                 </Container>
             </div>
         )
