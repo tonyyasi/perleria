@@ -58,17 +58,31 @@ export default class Cart extends React.Component {
           })
     }
 
+    handleButton = (e) => {
+      var cart = this.state.cart;
+      var id = -1;
+      for (var i = 0; i < cart.length; i++)
+        if (e.target.id == cart[i].id) {
+          id = i;
+          cart.splice(i,1);
+          break;
+          }
+      if (id >= 0)
+        database.ref().child(`carritos/${currentUser().uid}/productos/${id}`).remove();
+      this.setState({cart});
+    }
+
     render() {
       const {cart} = this.state
       const productList = cart.map(product => {
         return (
           <Card class="col-2">
-          <Card.Img class="center" src={product.imageURL} style={imgStyle} />
+          <Card.Img src={product.imageURL} style={imgStyle} />
           <Card.Body>
             <Card.Title>{product.name}</Card.Title>
             <Card.Text> Cantidad: {product.amount} </Card.Text>
             <Card.Text> Costo: ${product.price} </Card.Text>
-            <Button variant="primary">Eliminar</Button>
+            <Button onClick={this.handleButton} id={product.id}>Eliminar</Button>
           </Card.Body>
           </Card>
           )

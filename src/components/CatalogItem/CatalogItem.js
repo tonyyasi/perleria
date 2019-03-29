@@ -56,38 +56,41 @@ export class CatalogItem extends React.Component {
     }
 
     handleButton = () => {
-        const {item, amount, carrito} = this.state;
-        var alreadyInCart = false;
-        var amountInCart = 0;
-        for (var i = 0; i < carrito.length; i++) {
-          if (item.id == carrito[i].id) {
-            alreadyInCart = true;
-            amountInCart = carrito[i].amount;
-            carrito[i].amount += amount;
-            break;
-          }
+      const {item, amount, carrito} = this.state;
+      var alreadyInCart = false;
+      var amountInCart = 0;
+
+      if (amount == 0)
+        return;
+
+      for (var i = 0; i < carrito.length; i++)
+        if (item.id == carrito[i].id) {
+          alreadyInCart = true;
+          amount += carrito[i].amount;
+          carrito[i].amount += amount;
+          break;
         }
 
-        if(item.stock >= amount + amountInCart) {
-          if (alreadyInCart) {
+      if(item.stock >= amount) {
+        if (alreadyInCart) {
             // Add amount to product in cart
-            database.ref(`productos/${this.props.match.params.id}`).update({
+            database.ref().child(`carritos/${currentUser().uid}`).update({
               carrito: carrito
-              });
+            });            
           } else {
             // Add to cart logic
             database.ref().child(`carritos/${currentUser().uid}`).set({
-                productos: [{id: item.id, name: item.name, category: item.category,
-                             price: item.price, description: item.description, 
-                             imageURL: item.imageURL, amount: amount }, ...carrito]
-            }).then(() => {
-                alert('Producto agregado a carrito');
+              productos: [{id: item.id, name: item.name, category: item.category,
+               price: item.price, description: item.description, 
+               imageURL: item.imageURL, amount: amount }, ...carrito]
+             }).then(() => {
+              alert('Producto agregado a carrito');
             })
-          }
-        } else {
-            alert('Solo se puede comprar lo que se tiene en el inventario');
+           }
+         } else {
+          alert('Solo se puede comprar lo que se tiene en el inventario');
         }
-    }
+      }
 
     render() {
 
