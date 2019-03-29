@@ -19,7 +19,7 @@ export class CatalogItem extends React.Component {
         this.fetchCarrito();
     }
 
-     snapshotToArray = (snapshot) => {
+    snapshotToArray = (snapshot) => {
         var returnArr = [];
     
         snapshot.forEach(function(childSnapshot) {
@@ -61,7 +61,9 @@ export class CatalogItem extends React.Component {
         if(item.stock >= amount) {
             // Add to cart logic
             database.ref().child(`carritos/${currentUser().uid}`).set({
-                productos: [{id: item.id, amount: amount }, ...carrito]
+                productos: [{id: item.id, name: item.name, category: item.category,
+                             price: item.price, description: item.description, 
+                             imageURL: item.imageURL, amount: amount }, ...carrito]
             }).then(() => {
                 alert('Producto agregado a carrito');
             })
