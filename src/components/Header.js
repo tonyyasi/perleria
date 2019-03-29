@@ -5,12 +5,30 @@ import '../Header.css'
 import { NavLink } from 'react-router-dom';
 import {logout} from "../helpers/auth";
 import {customHistory} from '../index';
-import { currentUser, checkAdmin } from '../config/config';
+import { currentUser, database } from '../config/config';
 
 
 const appTokenKey = "appToken"; 
 
 export class Header extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            showAdmin: false
+        }
+    }
+
+    reviseAdmin = (id) => {
+        database.ref(`admins/${id}`).once('value').then((snapshot) => {
+            const showAdmin = snapshot.val();
+            this.setState({showAdmin});
+        });
+    }
+
+    componentDidMount() {
+        this.reviseAdmin(currentUser().uid);
+    }
 
     handleLogout() {
         logout().then(function () {
@@ -30,7 +48,7 @@ export class Header extends React.Component {
         <NavLink className="nav navItems" activeClassName="is-active" to ="/catalog">Catalogo</NavLink>
         <NavLink className="nav navItems" activeClassName="is-active" to ="/about">¿Quiénes Somos?</NavLink>
         <NavLink className="nav navItems" activeClassName="is-active" to ="/contact">Contacto</NavLink>
-        {checkAdmin(currentUser().uid) && 
+        {this.state.showAdmin &&
         <NavLink className="nav navItems" activeClassName="is-active" to ="/admin">Admin</NavLink>
         }
         <NavLink className="nav navItems" activeClassName="is-active" to ="/profile">Perfil</NavLink>

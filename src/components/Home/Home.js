@@ -21,16 +21,18 @@ export default class Home extends React.Component {
     }
 
     render() {
-        if(this.currentUser)
+        if(this.currentUser) {
+            const name = this.currentUser.displayName || 'no name';
         return (
             <div>
             <Header />
             <div style={{position:'fixed', top:'50%', left:'50%', transform:'translate(-50%,-50%)', fontSize:'120%', textAlign: 'center'}} >
-                <h1>Bienvenido a perleria, {this.currentUser.displayName}!</h1>
+                <h1>Bienvenido a perleria, {name}!</h1>
                 <FlatButton backgroundColor='lightgrey' onClick={this.handleOrder} label="Empezar a buscar!">  </FlatButton>
                 </div>
             </div>
         );
+        }
         else
         return <p>Home</p>
     }
