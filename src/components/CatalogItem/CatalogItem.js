@@ -47,7 +47,6 @@ export class CatalogItem extends React.Component {
         databaseRef.once('value').then((snapshot)=>{
           const item = snapshot.val();
           this.setState({item});
-          console.log(item);
         })
     }
 
@@ -58,7 +57,24 @@ export class CatalogItem extends React.Component {
 
     handleButton = () => {
         const {item, amount, carrito} = this.state;
-        if(item.stock >= amount) {
+        var alreadyInCart = false;
+        var amountInCart = 0;
+        for (var i = 0; i < carrito.length; i++) {
+          if (item.id == carrito[i].id) {
+            alreadyInCart = true;
+            amountInCart = carrito[i].amount;
+            carrito[i].amount += amount;
+            break;
+          }
+        }
+
+        if(item.stock >= amount + amountInCart) {
+          if (alreadyInCart) {
+            // Add amount to product in cart
+            database.ref(`productos/${this.props.match.params.id}`).update({
+              carrito: carrito
+              });
+          } else {
             // Add to cart logic
             database.ref().child(`carritos/${currentUser().uid}`).set({
                 productos: [{id: item.id, name: item.name, category: item.category,
@@ -67,6 +83,7 @@ export class CatalogItem extends React.Component {
             }).then(() => {
                 alert('Producto agregado a carrito');
             })
+          }
         } else {
             alert('Solo se puede comprar lo que se tiene en el inventario');
         }

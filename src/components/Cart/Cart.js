@@ -58,7 +58,6 @@ export default class Cart extends React.Component {
           })
     }
 
-
     render() {
       const {cart} = this.state
       const productList = cart.map(product => {
@@ -68,7 +67,7 @@ export default class Cart extends React.Component {
           <Card.Body>
             <Card.Title>{product.name}</Card.Title>
             <Card.Text> Cantidad: {product.amount} </Card.Text>
-            <Card.Text> Costo: {product.price} </Card.Text>
+            <Card.Text> Costo: ${product.price} </Card.Text>
             <Button variant="primary">Eliminar</Button>
           </Card.Body>
           </Card>
