@@ -5,6 +5,8 @@ import { currentUser } from '../../config/config';
 import { Header } from '../Header';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
+import CommonModal from '../CommonModal/CommonModal';
+import { customHistory } from '../..';
 
 const Line = styled.hr({
   background: '#00aaff',
@@ -22,7 +24,8 @@ export class CatalogItem extends React.Component {
         this.state = {
             item: {},
             amount: 0,
-            carrito: []
+            carrito: [],
+            modalShown: false,
         };
     }
 
@@ -96,12 +99,23 @@ export class CatalogItem extends React.Component {
                price: item.price, description: item.description, 
                imageURL: item.imageURL, amount: amount }, ...carrito]
              }).then(() => {
-              alert('Producto agregado a carrito');
+               const modalShown = true;
+               this.setState({modalShown});
+             // alert('Producto agregado a carrito');
             })
            }
          } else {
           alert('Solo se puede comprar lo que se tiene en el inventario');
         }
+      }
+
+      closeModal = () => {
+        const modalShown = false;
+        this.setState({modalShown});
+      };
+
+      returnToCatalog = () => {
+        customHistory.push('/catalog');
       }
 
     render() {
@@ -143,6 +157,7 @@ export class CatalogItem extends React.Component {
               </div>
           )}
           </Container>
+          <CommonModal shown={this.state.modalShown}  closeModal={this.closeModal} title={"Producto Agregado!"} subtitle={"El producto se agregó al carrito"} buttonText={"Volver al catalogo"} onClick={this.returnToCatalog} />
             </div>
         )
     }
