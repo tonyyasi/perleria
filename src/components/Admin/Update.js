@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form'
 import {Button} from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import {database} from "../../config/config";
+import CommonModal from './../CommonModal/CommonModal';
 
 export class Update extends React.Component {
     constructor(props) {
@@ -20,7 +21,8 @@ export class Update extends React.Component {
          description: '',
             category: '',
                stock: 0,
-               price: 0
+               price: 0,
+               modalShown: false,
         }
     }
 
@@ -57,6 +59,16 @@ export class Update extends React.Component {
         else 
             this.setState({ [e.target.name]: e.target.value });
     }
+    
+    closeModal = () => {
+      const modalShown = false;
+      this.setState({modalShown});
+    };
+
+    showModal = () => {
+      const modalShown = true;
+      this.setState({modalShown});
+    };
 
     handleEdit(e) {
       e.preventDefault();
@@ -66,8 +78,9 @@ export class Update extends React.Component {
             category: this.state.category,
             stock: this.state.stock,
             price: this.state.price
-      });
-      alert("Se ha modificado correctamente!");
+      }).then(() => {
+        this.showModal();
+      })
       var previousProducts = [];
       this.database.on('child_added', snap => {
         previousProducts.push({
@@ -155,6 +168,7 @@ export class Update extends React.Component {
                     Aceptar
                   </Button>
                 </Form>
+                <CommonModal shown={this.state.modalShown}  closeModal={this.closeModal} title={"Producto Modificado!"} subtitle={"El producto se modificó correctamente"} buttonText={"Cerrar"} onClick={this.closeModal} />
             </Container>
         )
     }

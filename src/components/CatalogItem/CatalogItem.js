@@ -26,6 +26,7 @@ export class CatalogItem extends React.Component {
             amount: 0,
             carrito: [],
             modalShown: false,
+            modalShown2: false
         };
     }
 
@@ -75,8 +76,11 @@ export class CatalogItem extends React.Component {
       var alreadyInCart = false;
       var amountInCart = 0;
 
-      if (amount == 0)
+      if (amount <= 0) {
+        this.showModal2();
         return;
+      }
+
 
       for (var i = 0; i < carrito.length; i++)
         if (item.id == carrito[i].id) {
@@ -99,19 +103,32 @@ export class CatalogItem extends React.Component {
                price: item.price, description: item.description, 
                imageURL: item.imageURL, amount: amount }, ...carrito]
              }).then(() => {
-               const modalShown = true;
-               this.setState({modalShown});
-             // alert('Producto agregado a carrito');
+               this.showModal();
             })
            }
          } else {
-          alert('Solo se puede comprar lo que se tiene en el inventario');
+           this.showModal2();
         }
       }
 
       closeModal = () => {
         const modalShown = false;
         this.setState({modalShown});
+      };
+
+      showModal = () => {
+        const modalShown = true;
+        this.setState({modalShown});
+      };
+
+      closeModal2 = () => {
+        const modalShown2 = false;
+        this.setState({modalShown2});
+      };
+
+      showModal2 = () => {
+        const modalShown2 = true;
+        this.setState({modalShown2});
       };
 
       returnToCatalog = () => {
@@ -158,6 +175,7 @@ export class CatalogItem extends React.Component {
           )}
           </Container>
           <CommonModal shown={this.state.modalShown}  closeModal={this.closeModal} title={"Producto Agregado!"} subtitle={"El producto se agregó al carrito"} buttonText={"Volver al catalogo"} onClick={this.returnToCatalog} />
+          <CommonModal shown={this.state.modalShown2}  closeModal={this.closeModal2} title={"Alto!"} subtitle={"Solo puedes agregar una cantidad dentro del rango del inventario"} buttonText={"Volver a intentar"} onClick={this.closeModal2} />
             </div>
         )
     }

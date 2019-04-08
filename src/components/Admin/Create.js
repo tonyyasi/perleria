@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form'
 import {Button} from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import {database, storageRef} from "../../config/config";
+import CommonModal from './../CommonModal/CommonModal';
 
 export class Create extends React.Component {
     constructor(props) {
@@ -18,8 +19,23 @@ export class Create extends React.Component {
             category:'',
             stock:0, 
             price: 0,
-            image: null
+            image: null,
+            modalShown: false
         }
+    }
+
+    showModal = () => {
+      const modalShown = true;
+      this.setState({modalShown});
+    };
+
+    closeModal = () => {
+      const modalShown = false;
+      this.setState({modalShown});
+    };
+
+    clearInputs = () => {
+      console.log('created');
     }
 
     handleChange(e) {
@@ -65,7 +81,7 @@ export class Create extends React.Component {
                 price: product.price,
                 imageURL: url
             }).then(() => {
-              alert("Se ha creado correctamente!");
+              this.showModal();
             })
           })
       });
@@ -126,6 +142,7 @@ export class Create extends React.Component {
                     Aceptar
                   </Button>
                 </Form>
+                <CommonModal shown={this.state.modalShown}  closeModal={this.closeModal} title={"Producto Creado!"} subtitle={"El producto se creó correctamente"} buttonText={"Aceptar"} onClick={this.clearInputs} />
             </Container>
         )
     }
