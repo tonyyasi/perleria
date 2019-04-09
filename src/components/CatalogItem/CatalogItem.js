@@ -72,11 +72,11 @@ export class CatalogItem extends React.Component {
     }
 
     handleButton = () => {
-      const {item, amount, carrito} = this.state;
+      let {item, amount, carrito} = this.state;
       var alreadyInCart = false;
+      let am = parseInt(amount);
       var amountInCart = 0;
-
-      if (amount <= 0) {
+      if (am <= 0) {
         this.showModal2();
         return;
       }
@@ -85,23 +85,25 @@ export class CatalogItem extends React.Component {
       for (var i = 0; i < carrito.length; i++)
         if (item.id == carrito[i].id) {
           alreadyInCart = true;
-          amount += carrito[i].amount;
-          carrito[i].amount += amount;
+          am += carrito[i].amount;
+          carrito[i].amount = am;
           break;
         }
-
-      if(item.stock >= amount) {
+      if(item.stock >= am) {
         if (alreadyInCart) {
+          console.log('carrito', carrito);
             // Add amount to product in cart
             database.ref().child(`carritos/${currentUser().uid}`).update({
-              carrito: carrito
+              productos: carrito
+            }).then(() => {
+              this.showModal();
             });            
           } else {
             // Add to cart logic
             database.ref().child(`carritos/${currentUser().uid}`).set({
               productos: [{id: item.id, name: item.name, category: item.category,
                price: item.price, description: item.description, 
-               imageURL: item.imageURL, amount: amount }, ...carrito]
+               imageURL: item.imageURL, amount: am }, ...carrito]
              }).then(() => {
                this.showModal();
             })
