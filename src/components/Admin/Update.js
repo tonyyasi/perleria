@@ -107,12 +107,6 @@ export class Update extends React.Component {
         })
         this.setState({ 
           products: previousProducts, 
-          activeId: previousProducts[0].id,
-              name: previousProducts[0].name,
-       description: previousProducts[0].description,
-          category: previousProducts[0].category,
-             stock: previousProducts[0].stock,
-             price: previousProducts[0].price,
            });
       })
     }
@@ -125,7 +119,7 @@ export class Update extends React.Component {
 
     render() {
 
-      const {name, description, stock, price} = this.state;
+      const {name, description, stock, price, category} = this.state;
 
         return (
             <Container>
@@ -154,7 +148,7 @@ export class Update extends React.Component {
                     </Form.Group>
                     <Form.Group controlId="pCategory">
                       <Form.Label>Categoría:</Form.Label>
-                      <Form.Control required name="category" as="select" onChange={this.handleChange}>
+                      <Form.Control value={category} required name="category" as="select" onChange={this.handleChange}>
                         <option>Collar</option>
                         <option>Pulsera</option>
                         <option>Reloj</option>
