@@ -2,8 +2,6 @@ import * as React from 'react';
 import {Header} from '../Header';
 import styled from '@emotion/styled'
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import {database, currentUser} from "../../config/config";
 import Card from 'react-bootstrap/Card'
 import CardColumns from 'react-bootstrap/CardColumns'
@@ -62,7 +60,7 @@ export default class Cart extends React.Component {
       var cart = this.state.cart;
       var id = -1;
       for (var i = 0; i < cart.length; i++)
-        if (e.target.id == cart[i].id) {
+        if (e.target.id === cart[i].id) {
           id = i;
           cart.splice(i,1);
           break;

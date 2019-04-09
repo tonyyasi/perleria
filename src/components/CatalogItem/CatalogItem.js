@@ -75,7 +75,6 @@ export class CatalogItem extends React.Component {
       let {item, amount, carrito} = this.state;
       var alreadyInCart = false;
       let am = parseInt(amount);
-      var amountInCart = 0;
       if (am <= 0) {
         this.showModal2();
         return;
@@ -83,7 +82,7 @@ export class CatalogItem extends React.Component {
 
 
       for (var i = 0; i < carrito.length; i++)
-        if (item.id == carrito[i].id) {
+        if (item.id === carrito[i].id) {
           alreadyInCart = true;
           am += carrito[i].amount;
           carrito[i].amount = am;
@@ -147,7 +146,7 @@ export class CatalogItem extends React.Component {
             <div style={{textAlign: 'center', marginTop: '30px'}}> <h2><b>Artículo:</b> {item.name}</h2> </div>
             <Line/>
             <div style={{textAlign: 'center'}}>
-              <img src={item.imageURL} style={{maxHeight:'350px', borderRadius:'20px', marginBottom: '40px'}}/>
+              <img alt={''} src={item.imageURL} style={{maxHeight:'350px', borderRadius:'20px', marginBottom: '40px'}}/>
             </div>
             <table style={{marginBottom: '35px'}}>
             <tr>

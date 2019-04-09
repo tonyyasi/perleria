@@ -169,13 +169,13 @@ export class Catalogo extends React.Component{
                           </label>                         
                         </div>
                       </form>
-                      <img src={this.state.filterMoney[1]} style={sCheckBox} onClick={()=>{this.priceFilter()}}/> <span style={sFilters}>Por mayor precio </span> <br/>
+                      <img alt={''} src={this.state.filterMoney[1]} style={sCheckBox} onClick={()=>{this.priceFilter()}}/> <span style={sFilters}>Por mayor precio </span> <br/>
                     </Col>
                     {this.state.items.map((item)=> {
                       return(
                         <Col sm={{ span: 4}}>
                           <div style={{textAlign: 'center'}}>
-                            <img src={item.image} style={sImage}/>
+                            <img alt={''} src={item.image} style={sImage}/>
                           </div>                      
                           <p>
                             <b>Nombre:</b> {item.name} <br/>
