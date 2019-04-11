@@ -3,22 +3,24 @@ header {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    color: white;
-    background-color: #333;
+    color: black;
+    background-color: #CDD9EF;
 }
 
+/*
 .is-active {
-    background-color: gray;
+    background-color: #F3DBD4;
 }
+*/
 
 .nav {
-    color: white;
+    color: black;
     padding: 14px 16px;
 }
 
 .navItems {
     display: block;
-    color: white;
+    color: black;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -31,7 +33,26 @@ header {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    border: #F3DBD4;
+    color: black;
+    background-color: #CDD9EF;
+}
+
+#navbar{
+    background-color: #CDD9EF; 
+}
+
+#buttons{
+    background-color:#F3DBD4;
     border: none;
-    color: white;
-    background-color: #333;
+    color: black;
+    font-size: 15px
+}
+
+#lines{
+    color:#F3DBD4 
+}
+
+h1{
+    text-align: center;
 }

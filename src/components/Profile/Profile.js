@@ -54,7 +54,7 @@ export default class Profile extends React.Component {
                       Por favor ingrese un nuevo valor
                     </Form.Control.Feedback>
                   </Form.Group>
-                  <Button variant="primary" type="Crear">
+                  <Button variant="primary" type="Crear" id="buttons">
                     Submit
                   </Button>
                   </Form>

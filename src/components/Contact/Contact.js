@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import {database} from "../../config/config";
+import Jumbotron from 'react-bootstrap/Jumbotron';
 
 const ErrorSpan = styled.div({
     color: 'red',
@@ -79,9 +80,10 @@ toggleModal = () => {
     return(
         <div>
         <Header/>
-            <Container>
+                <Jumbotron fluid>
                 <h3 style={{textAlign:'center', marginTop:'15px'}}>Contacto</h3>
-                <Line></Line>
+                </Jumbotron>
+                <Container>
                 <Row>
                     <Col sm={{ span: 6, offset: 3 }}>
                         <Formik 
@@ -118,7 +120,7 @@ toggleModal = () => {
                                 <LabelForms>Mensaje: </LabelForms>
                                 <Field style={sInput} type="text" name="message" placeholder="Danos tus sugerencias"></Field>
                                 {errors.message && touched.message && <ErrorSpan>{errors.message}<br/></ErrorSpan>}
-                                <Field style={sInput} className="btn btn-primary" value='Enviar' type='submit' name='submit' style={{marginTop: '0.5rem', width:'33%'}} ></Field>
+                                <Field id="buttons" style={sInput} className="btn btn-primary" value='Enviar' type='submit' name='submit' style={{marginTop: '0.5rem', width:'33%'}} ></Field>
                             </Form>)}
                         </Formik>
                     </Col>
@@ -131,7 +133,7 @@ toggleModal = () => {
               </Modal.Header>
               <Modal.Body>Tu mensaje sera leído lo mas pronto posible</Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={this.toggleModal}>
+                <Button variant="secondary" id="buttons" onClick={this.toggleModal}>
                   Cerrar
                 </Button>
               </Modal.Footer>
