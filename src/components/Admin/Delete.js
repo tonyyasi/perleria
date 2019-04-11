@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form'
 import {Button} from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import {database} from "../../config/config";
+import CommonModal from './../CommonModal/CommonModal';
 
 export class Delete extends React.Component {
     constructor(props) {
@@ -15,9 +16,20 @@ export class Delete extends React.Component {
 
         this.state = {
           products: [],
-          activeID: ''
+          activeID: '',
+          modalShown: false,
         }
     }
+
+    showModal = () => {
+      const modalShown = true;
+      this.setState({modalShown});
+    };
+
+    closeModal = () => {
+      const modalShown = false;
+      this.setState({modalShown});
+    };
 
     componentWillMount() {
       var previousProducts = [];
@@ -43,8 +55,10 @@ export class Delete extends React.Component {
 
     handleDelete(e) {
       e.preventDefault();
-      this.database.child(this.state.activeID).remove();
-      alert("Se ha eliminado correctamente!");
+      this.database.child(this.state.activeID).remove().then(() => {
+        this.showModal();
+      })
+      
     }
 
     listProducts() {
@@ -69,6 +83,7 @@ export class Delete extends React.Component {
                     Eliminar
                   </Button>
                 </Form>
+                <CommonModal shown={this.state.modalShown}  closeModal={this.closeModal} title={"Producto Borrado!"} subtitle={"El producto se borró correctamente"} buttonText={"Cerrar"} onClick={this.closeModal} />
             </Container>
         )
     }
