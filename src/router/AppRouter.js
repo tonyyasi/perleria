@@ -8,6 +8,7 @@ import Login from '../components/Login/Login';
 import { Header } from '../components/Header';
 import {About} from '../components/About/About';
 import {About} from '../components/Contact/Contact';
+import {Payment} from '../components/Payment/Payment';
 import Admin from '../components/Admin/Admin';
 import Cart from '../components/Cart/Cart';
 
@@ -22,6 +23,7 @@ export const Routes = () => (
       <Route exact={true} path='/admin' component={Admin} />
       <Route exact={true} path='/contact' component={Contact} />
       <Route exact={true} path='/cart' component={Cart} />
+      <Route exact={true} path='/payment' component={Payment} />
     </Switch>
     </div>
   </BrowserRouter>

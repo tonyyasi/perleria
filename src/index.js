@@ -12,6 +12,7 @@ import {Contact} from './components/Contact/Contact'
 import {Catalogo} from './components/Catalog/Catalog'
 import Admin from './components/Admin/Admin';
 import Cart from './components/Cart/Cart';
+import {Payment} from './components/Payment/Payment';
 import Profile from './components/Profile/Profile';
 import Home from './components/Home/Home';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -39,6 +40,7 @@ const Root = () => (
                 <Route path="/contact" component={Contact} />
                 <Route path="/home" component={Home} />
                 <Route path="/cart" component={Cart} />
+                <Route path="/payment" component={Payment} />
                 <Redirect from="/" to="/login"/>
             </div>
         </Router>
