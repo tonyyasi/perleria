@@ -6,9 +6,9 @@ import * as Yup from 'yup';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import CommonModal from '../CommonModal/CommonModal';
 import {database, currentUser} from "../../config/config";
+import { customHistory } from '../..';
 
 const ErrorSpan = styled.div({
     color: 'red',
@@ -71,7 +71,8 @@ export class Payment extends React.Component{
   state = {
     cart:[],
     total: 0,
-    date: ''
+    date: '',
+    modalShown: false,
   }
 
   getProducts(){
@@ -108,6 +109,21 @@ export class Payment extends React.Component{
     this.getProducts()
   }
 
+  returnToHome = () => {
+    customHistory.push('/home');
+  }
+
+
+  closeModal = () => {
+    const modalShown = false;
+    this.setState({modalShown});
+  };
+
+  showModal = () => {
+    const modalShown = true;
+    this.setState({modalShown});
+  };
+
   render()
   {
     return(
@@ -141,10 +157,11 @@ export class Payment extends React.Component{
                                 dateOrdered: this.state.date,
                                 total: this.state.total,
                                 deliveryStatus: 0,
-                                productos: [this.state.cart]
+                                productos: this.state.cart
                             }).then(()=>{
                               database.ref().child(`carritos/${currentUser().uid}`).remove()
                               console.log("succesful")
+                              this.showModal()
                             });
                             console.log(values)
                             actions.resetForm()
@@ -175,6 +192,7 @@ export class Payment extends React.Component{
                     </Col>
                 </Row>
             </Container>
+            <CommonModal shown={this.state.modalShown}  closeModal={this.closeModal} title={"Pedido Registrado!"} subtitle={"Tu pedido ha sido registrado!"} buttonText={"Volver a home"} onClick={this.returnToHome} />
             
     </div>
     )
