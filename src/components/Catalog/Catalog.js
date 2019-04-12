@@ -8,6 +8,8 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { customHistory } from '../..';
 import Jumbotron from 'react-bootstrap/Jumbotron';
+import Card from 'react-bootstrap/Card'
+import CardColumns from 'react-bootstrap/CardColumns'
 
 const Line = styled.hr({
   background: '#F3DBD4',
@@ -18,12 +20,17 @@ const Line = styled.hr({
   width: '75%',
 })
 
-const sImage = {
-  height: '210px',
-  width: '140px',
-  borderRadius: '20px',
-  marginBottom: '30px',
-}
+const imgStyle = {
+  height:'150px',
+  width:'150px',
+  borderRadius:'20px',
+  margin: '15px auto',
+  display: 'block'
+};
+
+const cardStyle = {
+  maxHeight: '400px'
+};
 
 const sColFilter = {
   borderRight: '2px solid #F3DBD4',
@@ -170,27 +177,27 @@ export class Catalogo extends React.Component{
                       </form>
                       <img alt={''} src={this.state.filterMoney[1]} style={sCheckBox} onClick={()=>{this.priceFilter()}}/> <span style={sFilters}>Por mayor precio </span> <br/>
                     </Col>
+                    <Col>
+                    <CardColumns>
                     {this.state.items.map((item)=> {
                       return(
-                        <Col sm={{ span: 4}} style={{marginBottom: '10px'}}>
-                          <div style={{textAlign: 'center'}}>
-                            <img alt={''} src={item.image} style={sImage}/>
-                          </div>                      
-                          <p>
-                            <b>Nombre:</b> {item.name} <br/>
-                            <b>Descripción:</b> {item.description} <br/>
-                            <b>Categoria: </b> {item.category} <br/>
-                            <b>Precio: $</b> {item.price} <br/>
-                          </p>
+                        <Card class="col-2" style={cardStyle}>
+                          <Card.Img src={item.image} style={imgStyle} />
+                          <Card.Body>
+                          <Card.Title>{item.name}</Card.Title>
+                          <Card.Subtitle>{item.category}</Card.Subtitle>
+                          <Card.Text> ${item.price} </Card.Text>
                           <div style={{textAlign: 'center'}}>
                             <Button id="buttons" onClick={()=>{this.handleClick(item.id)}}>
-                              Detalle
+                            Detalle
                             </Button>
                           </div>
-                        </Col>
+                          </Card.Body>
+                        </Card>
                       )
                     })}
-    
+                    </CardColumns>
+                  </Col>
                   </Row>
                 </Container>
             </div>
