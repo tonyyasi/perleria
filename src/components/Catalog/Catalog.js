@@ -19,13 +19,16 @@ const Line = styled.hr({
 })
 
 const sImage = {
-  maxHeight: '210px',
+  height: '210px',
+  width: '140px',
   borderRadius: '20px',
   marginBottom: '30px',
 }
 
 const sColFilter = {
-  borderRight: '2px solid #F3DBD4'
+  borderRight: '2px solid #F3DBD4',
+  borderBottom: '2px solid #F3DBD4',
+  marginBottom: '10px'
 }
 
 const sCheckBox = {
@@ -169,7 +172,7 @@ export class Catalogo extends React.Component{
                     </Col>
                     {this.state.items.map((item)=> {
                       return(
-                        <Col sm={{ span: 4}}>
+                        <Col sm={{ span: 4}} style={{marginBottom: '10px'}}>
                           <div style={{textAlign: 'center'}}>
                             <img alt={''} src={item.image} style={sImage}/>
                           </div>                      
