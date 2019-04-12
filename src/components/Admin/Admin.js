@@ -3,7 +3,7 @@ import {Header} from '../Header';
 import {Create} from './Create';
 import {Delete} from './Delete';
 import {Update} from './Update';
-import { database, currentUser } from '../../config/config';
+import { database, currentUser, firebaseAuth } from '../../config/config';
 import Table from 'react-bootstrap/Table'
 import CommonModal from './../CommonModal/CommonModal';
 import {Button} from 'react-bootstrap';
@@ -32,6 +32,7 @@ export default class Admin extends React.Component {
         this.state = {
             selectedId: "",
             items: [],
+            orders: [],
             showAdmin: false,
             deleteModalShown: false,
             updateModalShown: false,
@@ -47,6 +48,7 @@ export default class Admin extends React.Component {
     componentWillMount(){
       let databaseRef = database.ref("productos/");
       var previousProducts = [];
+      var ordersArray = [];
       databaseRef.on('child_added', snap => {
         previousProducts.push({
             id: snap.key,
@@ -65,6 +67,30 @@ export default class Admin extends React.Component {
           if (previousProducts[i].id === snap.key)
             previousProducts.splice(i, 1);
         this.setState({ items: previousProducts});
+      })
+
+      databaseRef = database.ref("pedidos/");
+      databaseRef.on('child_added', snap => {
+        let user = snap.key
+        snap.forEach(function(child){
+          let products = []
+          console.log(child.child("products"))
+          ordersArray.push({
+            id: user,
+            address: child.val().address,
+            city: child.val().city,
+            state: child.val().state,
+            zip: child.val().zip,
+            dateOrdered: child.val().dateOrdered,
+            deliveryStatus: child.val().deliveryStatus,
+            phone: child.val().phone,
+            products: child.val().productos,
+            recipient: child.val().recipient,
+            total: child.val().total
+          })
+        })
+        this.setState({ orders: ordersArray})
+        console.log(ordersArray)
       })
     }
 
@@ -115,10 +141,35 @@ export default class Admin extends React.Component {
         })
     }
 
+    orderProducts(prod){
+
+      let products = prod.map(p => {
+        return(
+          <li style = {{width: '100%'}}><b>{p.amount}</b>, {p.name} </li>
+        )
+      })
+
+      return products
+    }
+
     render() {
         if (this.state.showAdmin){
-            const {items} = this.state
-            const itemList = items.map(item => {
+            const orderList = this.state.orders.map(order =>{
+              return (
+                <tr>
+                    <td> {order.id} </td>
+                    <td> {order.address} </td>
+                    <td> {order.city} </td>
+                    <td> {order.state} </td>
+                    <td> {order.zip} </td>
+                    <td> {order.dateOrdered} </td>
+                    <td> ${order.total} </td>
+                    <td> <ul>{this.orderProducts(order.products)}</ul> </td>
+                </tr>
+              )
+            })
+
+            const itemList = this.state.items.map(item => {
                 return (
                     <tr>
                         <td> <img src={item.image} style={sImage}/> </td>
@@ -163,6 +214,29 @@ export default class Admin extends React.Component {
                           </thead>
                           <tbody>
                             {itemList}
+                          </tbody>
+                        </Table>
+                    </div>
+                    <br></br>
+                    <div style={{textAlign:'center'}}>
+                      <h2>Historial de Pedidos</h2>
+                    </div>
+                    <div style={contentStyle}>
+                        <Table striped bordered hover>
+                          <thead>
+                            <tr>
+                              <th>ID Usuario</th>
+                              <th>Dirección</th>
+                              <th>Ciudad</th>
+                              <th>Estado</th>
+                              <th>Zip</th>
+                              <th>Día Ordenado</th>
+                              <th>Total</th>
+                              <th>Cantidad y Productos</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {orderList}
                           </tbody>
                         </Table>
                     </div>
