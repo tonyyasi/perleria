@@ -59,13 +59,13 @@ const LoginPage = ({handleGoogleLogin}) => (
     <div>
     <SignUpHeader />
         <div style={{position:'fixed', top:'50%', left:'50%', transform:'translate(-50%,-50%)', fontSize:'140%'}}>
-        <h1>Bienvenido a Perleria!</h1>
-            <RaisedButton
-                label="Sign in with Google"
-                labelColor={"#ffffff"}
-                backgroundColor="#dd4b39"
-                icon={<FontIcon className="fa fa-google-plus" style={iconStyles}/>}
-                onClick={handleGoogleLogin}
+            <h1>Bienvenido a Perleria!</h1>
+                <RaisedButton
+                    label="Sign in with Google"
+                    labelColor={"#ffffff"}
+                    backgroundColor="#dd4b39"
+                    icon={<FontIcon className="fa fa-google-plus" id="buttons" style={iconStyles}/>}
+                    onClick={handleGoogleLogin}
             />
         </div>
     </div>

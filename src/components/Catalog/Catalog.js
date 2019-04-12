@@ -7,10 +7,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { customHistory } from '../..';
-
+import Jumbotron from 'react-bootstrap/Jumbotron';
 
 const Line = styled.hr({
-  background: '#00aaff',
+  background: '#F3DBD4',
   border: '0',
   height: '0.125rem',
   marginBottom: '2rem',
@@ -25,7 +25,7 @@ const sImage = {
 }
 
 const sColFilter = {
-  borderRight: '2px solid #00aaff'
+  borderRight: '2px solid #F3DBD4'
 }
 
 const sCheckBox = {
@@ -138,17 +138,14 @@ export class Catalogo extends React.Component{
         return(
             <div>
                 <Header/>
-                <Container fluid={true}>
-                  <Row>
-                    <div style={{textAlign:'center', width: '100%', marginTop: '30px'}}> 
-                    <h1>Cátalogo de Productos</h1>
-                    </div><br/>
-                    <Line/>
-                  </Row>
+                  <Jumbotron fluid >
+                      <h1>Catálogo</h1>
+                  </Jumbotron>
+                  <Container fluid={true}>
                   <Row>
                     <Col sm={{span:3}} style={sColFilter}>
                       <div style={{textAlign:'center'}}><h4>Filtros</h4></div>           
-                      <div style={sFilters}>Categoria</div> <br/>
+                      <div style={sFilters}>Categoría</div> <br/>
                       <form style={{marginBottom: '25px'}}>
                         <div className="radio">
                           <label>
@@ -184,7 +181,7 @@ export class Catalogo extends React.Component{
                             <b>Precio: $</b> {item.price} <br/>
                           </p>
                           <div style={{textAlign: 'center'}}>
-                            <Button variant="primary" onClick={()=>{this.handleClick(item.id)}}>
+                            <Button id="buttons" onClick={()=>{this.handleClick(item.id)}}>
                               Detalle
                             </Button>
                           </div>
