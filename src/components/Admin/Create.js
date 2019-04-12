@@ -34,10 +34,6 @@ export class Create extends React.Component {
       this.setState({modalShown});
     };
 
-    clearInputs = () => {
-      console.log('created');
-    }
-
     handleChange(e) {
         if (e.target.name === "stock" || e.target.name === "price") {
             let num = parseInt(e.target.value, 10);
@@ -142,7 +138,7 @@ export class Create extends React.Component {
                     Aceptar
                   </Button>
                 </Form>
-                <CommonModal shown={this.state.modalShown}  closeModal={this.closeModal} title={"Producto Creado!"} subtitle={"El producto se creó correctamente"} buttonText={"Aceptar"} onClick={this.clearInputs} />
+                <CommonModal shown={this.state.modalShown} closeModal={this.closeModal} title={"Producto Creado!"} subtitle={"El producto se creó correctamente"} buttonText={"Aceptar"} onClick={this.closeModal} />
             </Container>
         )
     }
