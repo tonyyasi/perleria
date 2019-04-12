@@ -58,7 +58,6 @@ export class Delete extends React.Component {
       this.database.child(this.state.activeID).remove().then(() => {
         this.showModal();
       })
-      
     }
 
     listProducts() {

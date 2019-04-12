@@ -29,7 +29,7 @@ export const About= () => (
         <div >
         <Header />
         <Jumbotron fluid>
-        <h1 style={h1Style}>¿Quienes Somos?</h1>
+        <h1 style={h1Style}>¿Quiénes Somos?</h1>
         </Jumbotron>
         <Container>
           <Row>

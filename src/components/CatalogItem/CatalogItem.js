@@ -171,7 +171,7 @@ export class CatalogItem extends React.Component {
           {item.stock > 0 && (
               <div>
               <input type="text" placeholder="amount" value={this.state.amount} onChange={this.handleChange}></input>
-              <Button onClick={this.handleButton} style={{marginLeft: '15px'}}>Agregar a carrito</Button>
+              <Button id="buttons" onClick={this.handleButton} style={{marginLeft: '15px'}}>Agregar a carrito</Button>
               </div>
           )}
           </Container>

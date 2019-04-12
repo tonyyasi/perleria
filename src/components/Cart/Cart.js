@@ -7,6 +7,7 @@ import Card from 'react-bootstrap/Card'
 import CardColumns from 'react-bootstrap/CardColumns'
 import Button from 'react-bootstrap/Button'
 import { customHistory } from '../..';
+import Jumbotron from 'react-bootstrap/Jumbotron';
 
 const imgStyle = {
   height:'200px',
@@ -122,9 +123,9 @@ export default class Cart extends React.Component {
         return (
             <div>
                 <Header />
+                <Jumbotron fluid>
                 <h1 style={h1Style}> Carrito de Compras </h1>
-								<br/>
-                <Line/>
+                </Jumbotron>
                 <Container>
                   <CardColumns>
                     {productList}
