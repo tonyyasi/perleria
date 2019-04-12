@@ -126,7 +126,6 @@ export class Catalogo extends React.Component{
 
      componentWillMount(){
       this.getProducts() 
-      console.log(this.state.items)
       }
 
       handleClick = (itemKey) => {

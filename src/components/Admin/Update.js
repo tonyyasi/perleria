@@ -2,7 +2,7 @@ import * as React from 'react';
 import Form from 'react-bootstrap/Form'
 import {Button} from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
-import {database} from "../../config/config";
+import {database, storageRef} from "../../config/config";
 import CommonModal from './../CommonModal/CommonModal';
 
 export class Update extends React.Component {
@@ -10,68 +10,42 @@ export class Update extends React.Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
-        this.listProducts = this.listProducts.bind(this);
-
-        this.database = database.ref().child('productos');
 
         this.state = {
-            products: [],
-            activeId: 'null',
                 name: '',
          description: '',
             category: '',
                stock: 0,
                price: 0,
-               modalShown: false,
-        }
+               image: null,
+          modalShown: false
+        };
     }
 
     componentDidMount() {
-      var previousProducts = [];
-      this.database.on('child_added', snap => {
-        previousProducts.push({
-          id: snap.key,
-          name: snap.val().name,
-          description: snap.val().description,
-          category: snap.val().category,
-          stock: snap.val().stock,
-          price: snap.val().price
+      if (this.props.id) {
+        let databaseRef = database.ref(`productos/${this.props.id}`)
+        databaseRef.once('value').then((snapshot)=>{
+          const product = snapshot.val();
+          this.setState({
+                   name: product.name,
+            description: product.description,
+               category: product.category,
+                  stock: product.stock,
+                  price: product.price,
+                  image: product.imageURL,
+               newImage: false
+          });
         })
-        this.setState({ 
-          products: previousProducts, 
-          activeId: previousProducts[0].id,
-              name: previousProducts[0].name,
-       description: previousProducts[0].description,
-          category: previousProducts[0].category,
-             stock: previousProducts[0].stock,
-             price: previousProducts[0].price,
-           });
-      })
-    }
-
-    updateState = (id) => {
-      
-      let product = this.state.products.filter(product => product.id === id)[0];
-      this.setState({ 
-        activeId: product.id,
-            name: product.name,
-     description: product.description,
-        category: product.category,
-           stock: product.stock,
-           price: product.price,
-         });
+      }
     }
 
     handleChange(e) {
       if (e.target.name === "stock" || e.target.name === "price") {
-            let num = parseInt(e.target.value, 10);
-            this.setState({ [e.target.name]: num });
-        } else if (e.target.name === "products") {
-            this.setState({ activeId: e.target.value });
-            this.updateState(e.target.value);
-          }
-        else 
-            this.setState({ [e.target.name]: e.target.value });
+        let num = parseInt(e.target.value, 10);
+        this.setState({ [e.target.name]: num });
+      } else
+      this.setState({ [e.target.name]: e.target.value });
     }
     
     closeModal = () => {
@@ -84,53 +58,73 @@ export class Update extends React.Component {
       this.setState({modalShown});
     };
 
-    handleEdit(e) {
-      e.preventDefault();
-      this.database.child(this.state.activeId).update({
-            name: this.state.name,
-            description: this.state.description,
-            category: this.state.category,
-            stock: this.state.stock,
-            price: this.state.price
-      }).then(() => {
-        this.showModal();
-      })
-      var previousProducts = [];
-      this.database.on('child_added', snap => {
-        previousProducts.push({
-          id: snap.key,
-          name: snap.val().name,
-          description: snap.val().description,
-          category: snap.val().category,
-          stock: snap.val().stock,
-          price: snap.val().price
-        })
-        this.setState({ 
-          products: previousProducts, 
-           });
-      })
+    handlePhotos = (e) => {
+      const image = e.target.files[0];
+      this.setState(() => ({
+        image: image,
+        newImage: true
+      }));
     }
 
-    listProducts() {
-      return this.state.products.map((product) => {
-        return <option key={product.id} value={product.id}> {product.name} </option>;
-      });
+    handleEdit(e) {
+      e.preventDefault();
+      if (this.state.newImage)
+        this.updateWithImage();
+      else
+        this.updateProduct();
+    }
+
+    updateProduct = () => {
+      var product = this.state;
+
+      database.ref(`productos/${this.props.id}`).update({
+              name: product.name,
+       description: product.description,
+          category: product.category,
+             stock: product.stock,
+             price: product.price,
+     }).then(() => {
+      this.showModal();
+    })
+   }
+
+    updateWithImage = () => {
+      var product = this.state;
+      const image = this.state.image;
+      const imageName = image.name + new Date().getTime().toString();
+      const uploadTask = storageRef.ref(`images/${imageName}`).put(image);
+      uploadTask.on('state_changed',
+      (snapshot) => {
+        // progrss function ....
+      },
+      (error) => {
+           // error function ....
+        console.log(error);
+      },
+      () => {
+        // complete function ....
+        storageRef.ref('images').child(imageName).getDownloadURL().then(url => {
+          database.ref(`productos/${this.props.id}`).update({
+                     name: product.name,
+              description: product.description,
+                 category: product.category,
+                    stock: product.stock,
+                    price: product.price,
+                 imageURL: url
+          }).then(() => {
+            this.showModal();
+            })
+          })
+        });
     }
 
     render() {
-
       const {name, description, stock, price, category} = this.state;
 
         return (
             <Container>
                 <h3> Modificar Producto </h3>
                 <Form onSubmit={this.handleEdit}>
-                  <Form.Group controlId="productDelete">
-                    <Form.Label>Producto:</Form.Label>
-                    <Form.Control required name="products" as="select" onChange={this.handleChange}>
-                        {this.listProducts()}
-                    </Form.Control>
-                  </Form.Group>
                   <Container>
                     <Form.Group controlId="pName">
                       <Form.Label>Nombre:</Form.Label>
@@ -173,13 +167,17 @@ export class Update extends React.Component {
                         Por favor introduzca el costo.
                       </Form.Control.Feedback>
                     </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Image </Form.Label>
+                      <Form.Control name="images" type="file" multiple onChange={this.handlePhotos}/>
+                    </Form.Group>
                   </Container>
 
                   <Button variant="primary" type="submit">
                     Aceptar
                   </Button>
                 </Form>
-                <CommonModal shown={this.state.modalShown}  closeModal={this.closeModal} title={"Producto Modificado!"} subtitle={"El producto se modificó correctamente"} buttonText={"Cerrar"} onClick={this.closeModal} />
+                <CommonModal shown={this.state.modalShown} closeModal={this.closeModal} title={"Producto Modificado!"} subtitle={"El producto se modificó correctamente"} buttonText={"Cerrar"} onClick={this.closeModal} />
             </Container>
         )
     }
