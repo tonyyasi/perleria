@@ -5,7 +5,8 @@ import scriptLoader from 'react-async-script-loader';
 class PaypalButton extends React.Component {
   constructor(props) {
     super(props);
-
+    window.React = React
+    window.ReactDOM = ReactDOM
     this.state = {
       showButton: false,
     };
@@ -14,32 +15,26 @@ class PaypalButton extends React.Component {
     window.ReactDOM = ReactDOM;
   }
 
-  componentDidMount() {
-    const {
-      isScriptLoaded,
-      isScriptLoadSucceed
-    } = this.props;
+  componentWillUnmount() {
+    delete window.React
+    delete window.ReactDOM
+  }
 
-    if (isScriptLoaded && isScriptLoadSucceed) {
-      this.setState({ showButton: true });
+  componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
+    if (!this.state.showButton) {
+      if (isScriptLoaded && !this.props.isScriptLoaded) { 
+        if (isScriptLoadSucceed) {
+          this.setState({ showButton: true })
+        }
+        else this.props.onError()
+      }
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {
-      isScriptLoaded,
-      isScriptLoadSucceed,
-    } = nextProps;
-
-    const isLoadedButWasntLoadedBefore =
-      !this.state.showButton &&
-      !this.props.isScriptLoaded &&
-      isScriptLoaded;
-
-    if (isLoadedButWasntLoadedBefore) {
-      if (isScriptLoadSucceed) {
-        this.setState({ showButton: true });
-      }
+  componentDidMount () {
+    const { isScriptLoaded, isScriptLoadSucceed } = this.props
+    if (isScriptLoaded && isScriptLoadSucceed) {
+      this.setState({ showButton: true })
     }
   }
 
@@ -60,7 +55,7 @@ class PaypalButton extends React.Component {
     } = this.state;
 
     const payment = () =>
-    paypal.rest.payment.create(env, client, {
+    window.paypal.rest.payment.create(env, client, {
       transactions: [
         {
           amount: {
@@ -85,10 +80,33 @@ class PaypalButton extends React.Component {
 
         onSuccess(payment);
       });
-
+      if (showButton){
+      const Btn = window.paypal.Button.react;
+      return (
+          <Btn
+          env={env}
+        client={client}
+        commit={commit}
+        payment={payment}
+        onAuthorize={onAuthorize}
+        onCancel={onCancel}
+        onError={onError}
+          />
+      )
+      }
     return (
       <div>
-        {showButton && <paypal.Button.react
+      loading  
+      </div>
+    );
+  }
+
+}
+
+export default scriptLoader('https://www.paypalobjects.com/api/checkout.js')(PaypalButton);
+
+/*
+{showButton && <paypal.Button.react
           env={env}
           client={client}
           commit={commit}
@@ -97,10 +115,4 @@ class PaypalButton extends React.Component {
           onCancel={onCancel}
           onError={onError}
         />}
-      </div>
-    );
-  }
-
-}
-
-export default scriptLoader('https://www.paypalobjects.com/api/checkout.js')(PaypalButton);
+        */
