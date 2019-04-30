@@ -28,7 +28,7 @@ class PaypalComponent extends React.Component {
           env={ENV}
           commit={true}
           currency={'MXN'}
-          total={this.props.total}
+          total={this.props.totalPrice}
           onSuccess={onSuccess}
           onError={onError}
           onCancel={onCancel}
