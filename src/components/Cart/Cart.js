@@ -8,6 +8,9 @@ import CardColumns from 'react-bootstrap/CardColumns'
 import Button from 'react-bootstrap/Button'
 import { customHistory } from '../..';
 import Jumbotron from 'react-bootstrap/Jumbotron';
+import PaypalComponent from '../Paypal/PaypalComponent';
+import CommonModal from './../CommonModal/CommonModal';
+
 
 const imgStyle = {
   height:'200px',
@@ -45,7 +48,8 @@ export default class Cart extends React.Component {
       
         this.state = {
           cart: [],
-          empty: true
+          empty: true,
+          showModal: false
         }
         this.getProducts = this.getProducts.bind(this)
       };
@@ -85,15 +89,28 @@ export default class Cart extends React.Component {
       this.setState({cart});
     }
 
-    goToPayment(){
+    goToPayment = () => {
       customHistory.push('/payment')
     }
 
-    buyButton = (productList) => {
+    onFailure = () => {
+        const showModal = true;
+        this.setState({showModal});
+    }
+
+    buyButton = (productList, cart) => {
       if(productList.length > 0){
+        let totalPrice = 0;
+        cart.map((item) => {
+          totalPrice += item.amount * item.price;
+        });
         return (
           <div style={sBuy}>
-            <Button onClick={this.goToPayment}>Comprar</Button>
+            <p> <b>Precio total:  {totalPrice} </b></p>
+            <PaypalComponent onCancel={this.onFailure} totalPrice={totalPrice} onSuccess={this.goToPayment} onFailure={this.onFailure} />
+            <br />
+            <br />
+
           </div>
         )
       }else{
@@ -103,6 +120,16 @@ export default class Cart extends React.Component {
           </div>
         )
       }
+    }
+
+    goToCarrito = () => {
+      const showModal = false;
+      this.setState({showModal});
+    }
+
+    closeModal = () => {
+      const showModal = false;
+      this.setState({showModal});
     }
 
     render() {
@@ -131,7 +158,8 @@ export default class Cart extends React.Component {
                     {productList}
                   </CardColumns>
                 </Container>
-                {this.buyButton(productList)}
+                {this.buyButton(productList, cart)}
+                <CommonModal shown={this.state.showModal} closeModal={this.closeModal} title={"Compra no terminada"} subtitle={"El pago no se realizó correctamente"} buttonText={"Volver a intentar"} onClick={this.goToCarrito} />
             </div>
         )
     }

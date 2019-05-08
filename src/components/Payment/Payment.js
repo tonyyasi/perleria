@@ -186,7 +186,7 @@ export class Payment extends React.Component{
                                 <LabelForms>Código Postal: </LabelForms>
                                 <Field style={sInput} type="number" name="zip" placeholder="64849"></Field>
                                 {errors.zip && touched.zip && <ErrorSpan>{errors.zip}<br/></ErrorSpan>}
-                                <Field style={sInput} className="btn btn-primary" value='Confirmar' type='submit' name='submit' style={{marginTop: '0.5rem', width:'33%'}} ></Field>
+                                <Field style={sInput} className="btn btn-primary" value='Terminar!' type='submit' name='submit' style={{marginTop: '0.5rem', width:'33%'}} ></Field>
                             </Form>)}
                         </Formik>
                     </Col>
