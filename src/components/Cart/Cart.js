@@ -106,7 +106,7 @@ export default class Cart extends React.Component {
         });
         return (
           <div style={sBuy}>
-            <p> <b>Precio total:  {totalPrice} </b></p>
+            <p> <b>Precio total:  ${totalPrice} </b></p>
             <PaypalComponent onCancel={this.onFailure} totalPrice={totalPrice} onSuccess={this.goToPayment} onFailure={this.onFailure} />
             <br />
             <br />

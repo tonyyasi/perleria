@@ -15,6 +15,13 @@ const h1Style = {
   marginTop: '20px'
 };
 
+const tableScroll = {
+  position: 'relative',
+  height: '400px',
+  overflow: 'auto',
+  display: 'block'
+};
+
 const sImage = {
   maxHeight: '100px',
   maxWidth: '100px',
@@ -33,6 +40,7 @@ export default class Admin extends React.Component {
             selectedId: "",
             items: [],
             orders: [],
+            contacts: [],
             showAdmin: false,
             deleteModalShown: false,
             updateModalShown: false,
@@ -49,6 +57,7 @@ export default class Admin extends React.Component {
       let databaseRef = database.ref("productos/");
       var previousProducts = [];
       var ordersArray = [];
+      var contactsArray = [];
       databaseRef.on('child_added', snap => {
         previousProducts.push({
             id: snap.key,
@@ -69,12 +78,20 @@ export default class Admin extends React.Component {
         this.setState({ items: previousProducts});
       })
 
+      databaseRef = database.ref("contacto/");
+      databaseRef.on('child_added', snap => {
+        contactsArray.push({
+          name: snap.val().name,
+          email: snap.val().email,
+          message: snap.val().message
+        })
+        this.setState({contacts: contactsArray})
+      })
+
       databaseRef = database.ref("pedidos/");
       databaseRef.on('child_added', snap => {
         let user = snap.key
         snap.forEach(function(child){
-          let products = []
-          console.log(child.child("products"))
           ordersArray.push({
             id: user,
             address: child.val().address,
@@ -90,7 +107,6 @@ export default class Admin extends React.Component {
           })
         })
         this.setState({ orders: ordersArray})
-        console.log(ordersArray)
       })
     }
 
@@ -169,6 +185,16 @@ export default class Admin extends React.Component {
               )
             })
 
+            const contactList = this.state.contacts.map(contact =>{
+              return (
+                <tr>
+                    <td> {contact.name} </td>
+                    <td> {contact.email} </td>
+                    <td> {contact.message} </td>
+                </tr>
+              )
+            })
+
             const itemList = this.state.items.map(item => {
                 return (
                     <tr>
@@ -200,45 +226,67 @@ export default class Admin extends React.Component {
                         <Button variant="primary" onClick={()=>{this.handleCreate()}}>
                             Nuevo
                         </Button>
-                        <Table striped bordered hover>
-                          <thead>
-                            <tr>
-                              <th>Imagen</th>
-                              <th>Nombre</th>
-                              <th>Descripción</th>
-                              <th>Categoría</th>
-                              <th>Precio</th>
-                              <th>Cantidad</th>
-                              <th>Acción</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {itemList}
-                          </tbody>
-                        </Table>
+                        <div style={tableScroll}>
+                          <Table striped bordered hover>
+                            <thead>
+                              <tr>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Acción</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {itemList}
+                            </tbody>
+                          </Table>
+                        </div>
                     </div>
-                    <br></br>
+                    <div style={{textAlign:'center'}}>
+                      <h2>Comentarios Recividos</h2>
+                    </div>
+                    <div style={contentStyle}>
+                        <div style={tableScroll}>
+                          <Table striped bordered hover>
+                            <thead>
+                              <tr>
+                                <th>Usuario</th>
+                                <th>Email</th>
+                                <th>Comentario</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {contactList}
+                            </tbody>
+                          </Table>
+                        </div>
+                    </div>
                     <div style={{textAlign:'center'}}>
                       <h2>Historial de Pedidos</h2>
                     </div>
                     <div style={contentStyle}>
-                        <Table striped bordered hover>
-                          <thead>
-                            <tr>
-                              <th>ID Usuario</th>
-                              <th>Dirección</th>
-                              <th>Ciudad</th>
-                              <th>Estado</th>
-                              <th>Zip</th>
-                              <th>Día Ordenado</th>
-                              <th>Total</th>
-                              <th>Cantidad y Productos</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {orderList}
-                          </tbody>
-                        </Table>
+                        <div style={tableScroll}>
+                          <Table striped bordered hover>
+                            <thead>
+                              <tr>
+                                <th>ID Usuario</th>
+                                <th>Dirección</th>
+                                <th>Ciudad</th>
+                                <th>Estado</th>
+                                <th>Zip</th>
+                                <th>Día Ordenado</th>
+                                <th>Total</th>
+                                <th>Cantidad y Productos</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {orderList}
+                            </tbody>
+                          </Table>
+                        </div>
                     </div>
                     <CommonModal shown={this.state.deleteModalShown}  closeModal={this.closeModal} title={this.state.modalTitle} subtitle={"El producto se eliminó correctamente"} buttonText={"Cerrar"} onClick={this.closeModal} />
                     <CommonModal shown={this.state.updateModalShown}  closeModal={this.closeModal} title={this.state.modalTitle} subtitle={<Update id={this.state.selectedId} />} buttonText={"Cerrar"} onClick={this.closeModal} />
